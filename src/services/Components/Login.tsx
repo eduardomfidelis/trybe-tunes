@@ -29,7 +29,7 @@ function Login() {
   const handleClickbtn = async () => {
     setIsLoading(true);
     await createUser({ name: userName });
-    navegate('/seach');
+    navegate('/search');
     setIsLoading(false);
   };
 
