@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import searchAlbumsAPI from '../searchAlbumsAPI';
 import Loading from './Loading';
+import Header from './Header';
 
 const initialFormValue = {
   artistName: '',
@@ -52,55 +53,59 @@ function Search() {
   };
   useEffect((handleValidationBtn), [artistName]);
   return (
-    <div>
-      {!isLoading && (
-        <form>
-          <input
-            data-testid="search-artist-input"
-            type="text"
-            placeholder="Nome do Artista"
-            name="artistName"
-            value={ inputValue }
-            onChange={ handleInputChange }
-          />
-          <button
-            data-testid="search-artist-button"
-            disabled={ !inputValidation }
-            onClick={ handleClick }
-          >
-            Procurar
-          </button>
-        </form>
-      )}
-      {isLoading && (<Loading />)}
-      {!isLoading && searchResult.length > 0 && (
-        <section>
-          <p>
-            {`Resultado de álbuns de: ${artistName}`}
-          </p>
-          {searchResult.map((album) => (
-            <div
-              key={ album.collectionId }
+    <>
+      <Header />
+
+      <div>
+        {!isLoading && (
+          <form>
+            <input
+              data-testid="search-artist-input"
+              type="text"
+              placeholder="Nome do Artista"
+              name="artistName"
+              value={ inputValue }
+              onChange={ handleInputChange }
+            />
+            <button
+              data-testid="search-artist-button"
+              disabled={ !inputValidation }
+              onClick={ handleClick }
             >
-              {' '}
-              <Link
-                to={ `/album/${album.collectionId}` }
-                data-testid={ `link-to-album-${album.collectionId}` }
+              Procurar
+            </button>
+          </form>
+        )}
+        {isLoading && (<Loading />)}
+        {!isLoading && searchResult.length > 0 && (
+          <section>
+            <p>
+              {`Resultado de álbuns de: ${artistName}`}
+            </p>
+            {searchResult.map((album) => (
+              <div
+                key={ album.collectionId }
               >
-                {album.collectionName}
-              </Link>
+                {' '}
+                <Link
+                  to={ `/album/${album.collectionId}` }
+                  data-testid={ `link-to-album-${album.collectionId}` }
+                >
+                  {album.collectionName}
+                </Link>
 
-            </div>
+              </div>
 
-          ))}
-        </section>
-      )}
-      {!isLoading && searchResult.length === 0 && (
-        <p>
-          Nenhum álbum foi encontrado
-        </p>
-      )}
-    </div>
+            ))}
+          </section>
+        )}
+        {!isLoading && searchResult.length === 0 && (
+          <p>
+            Nenhum álbum foi encontrado
+          </p>
+        )}
+      </div>
+    </>
   );
 }
 export default Search;

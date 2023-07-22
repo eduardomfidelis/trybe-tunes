@@ -4,6 +4,7 @@ import Loading from './Loading';
 import getMusics from '../musicsAPI';
 import { AlbumType, SongType } from '../../types';
 import MusicCard from './MusicCard';
+import Header from './Header';
 
 function Album() {
   const { id } = useParams<{ id: string }>();
@@ -23,23 +24,27 @@ function Album() {
   }, [id]);
 
   return (
-    <div>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <div>
-          <h2 data-testid="artist-name">{albumInfo?.artistName}</h2>
-          <h2 data-testid="album-name">{albumInfo?.collectionName}</h2>
-          {songList?.map((song) => (
-            <MusicCard
-              key={ song.trackId }
-              trackName={ song.trackName }
-              previewUrl={ song.previewUrl }
-            />
-          ))}
-        </div>
-      )}
-    </div>
+    <>
+      <Header />
+
+      <div>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <div>
+            <h2 data-testid="artist-name">{albumInfo?.artistName}</h2>
+            <h2 data-testid="album-name">{albumInfo?.collectionName}</h2>
+            {songList?.map((song) => (
+              <MusicCard
+                key={ song.trackId }
+                trackName={ song.trackName }
+                previewUrl={ song.previewUrl }
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 }
 
